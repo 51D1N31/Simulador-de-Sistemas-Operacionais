@@ -12,7 +12,7 @@ import java.util.List;
  * @author sidin
  */
 public abstract class Escalonador {
-    private List<ParTempoProcesso> list = new LinkedList<ParTempoProcesso>();
+    private LinkedList<ParTempoProcesso> list = new LinkedList<>();
     private ParTempoProcesso processoAtivo;
     private Recurso recurso;
     private int contTempo;
@@ -43,9 +43,7 @@ public abstract class Escalonador {
         return true; //ele n pediu para fazer esse return mas fazer oq ne, ele vai dar erro se n fizer
     }
     
-    public abstract boolean adicionar(ParTempoProcesso par){
-        
-    }
+    public abstract boolean adicionar(ParTempoProcesso par);
     
     protected int getContadorDeTempo() {
         return this.contTempo;
@@ -59,22 +57,59 @@ public abstract class Escalonador {
         return this.list;
     }
     
-    protected Processo limparProcessoAtivo() {// como que eu atribuo em uma variavel temporaria sem usar o construtor ?
-        private Processo aux = new getPar
+    protected Processo limparProcessoAtivo() {
+        Processo aux = getParTempoProcessoAtivo().getProcesso();
         this.processoAtivo = null;
-        
+        return aux;
     }
     
     public Processo gerenciar() {
+        //Remover processos da fila - inicio 
+        if(getParTempoProcessoAtivo() == null){
+            this.processoAtivo = list.peekFirst();
+            list.pollFirst();
+            this.contTempo = 0;
+        }
+        //fim
         
+        //Contabilizar a atividade ou ociosidade do recurso e dos processos:
+        if (getParTempoProcessoAtivo() == null) {
+            this.contTempo++;
+        } else {
+            this.recurso.incrementarTempoAtivo();
+        }
+        for(ParTempoProcesso p: list) {
+            p.getProcesso().incrementarTempoOcioso();
+        }
+        if (getParTempoProcessoAtivo() != null) {
+            getParTempoProcessoAtivo().getProcesso().incrementarTempoAtivo();
+        }
+        this.contTempo++;
+        //fim
+        
+        //Imprimir estado da execução:
+        if (getParTempoProcessoAtivo() == null) {
+            return null;
+        } else {
+            System.out.println("Recurso " + this.recurso.getNome() + " (tamanho da fila: " + list.size() + ") processo " + this.getParTempoProcessoAtivo().getProcesso().getNome() +
+                    " " + this.contTempo/this.getParTempoProcessoAtivo().getTempo());
+        }
+        //fim
+        
+        //Verificar se o processo ativo ja terminou: 
+        if (verificarFim()) {
+            return limparProcessoAtivo();
+        }
+        else {
+            return null;
+        }
+        //fim
     }
     
-    protected abstract boolean verificarFim() {
-        
-    }
+    protected abstract boolean verificarFim();
     
     public boolean haProcessos() {
-        
+        return getParTempoProcessoAtivo() != null;
     }
     
 }
