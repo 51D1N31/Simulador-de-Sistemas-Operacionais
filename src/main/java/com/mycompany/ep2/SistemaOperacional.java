@@ -12,14 +12,19 @@ import java.util.List;
  * @author s240370
  */
 public class SistemaOperacional {
-    private LinkedList<Processo> processosTerminados = new LinkedList<>();
-    private Escalonador cpu, es; 
+    private LinkedList<Processo> processosTerminados;
+    private Escalonador cpu;
+    private Escalonador es; 
     private GerenciadorDeMemoria memoria;
     private int tempoAtual;
     private Processo processoCPU, processoES;
+    private double ociosidadeCPU, ociosidadeES;
     
     public SistemaOperacional(GerenciadorDeMemoria mem, Escalonador escalonadorCPU, Escalonador escalonadorES) {
+        this.processosTerminados = new LinkedList<>();
         this.cpu = escalonadorCPU;
+        this.ociosidadeCPU = 0;
+        this.ociosidadeES = 0;
         this.es = escalonadorES;
         this.memoria = mem;
         this.tempoAtual = 0;
@@ -118,11 +123,34 @@ public class SistemaOperacional {
                 adicionarProcesso(processo.getProcesso());
             }
             executarPasso();
+            //teste para pegar o valor de ociosidade
+            //if (cpu.getParTempoProcessoAtivo() != null) {
+                //if (cpu.getParTempoProcessoAtivo().getProcesso().getPorcentagemOcioso() >= ociosidadeCPU) {
+               //     ociosidadeCPU = cpu
+             //   }
+            //}
+            //fim do teste
         }
         System.out.println("Nao ha mais processos para executar");
     }
     
-    public void imprimirEstatisticas() {
-        //implementar isso depois
+    public void imprimirEstatisticas() { //com toda certeza isso aqui está errado
+        String tipoMemoria = null;
+        if (memoria instanceof GerenciadorDeMemoriaFragmentada) {
+            tipoMemoria = "Fragmentada";
+        } else {
+            tipoMemoria = "Jarra";
+        }
+        
+        System.out.println("Tempo de execucao total: " + getTempoAtual());
+        System.out.println("Ociosidade de CPU: " + cpu.getContadorDeTempo() + ""
+                + "% (" + cpu.toString() + ")");
+        System.out.println("Ociosidade de E/S: " + es.getContadorDeTempo() +
+                "% (" + es.toString() + ")");
+        System.out.println("Uso maximo de memoria: " + memoria.getAlocacaoMaxima() + "% (" + tipoMemoria + ")");
+        System.out.println("Processos finalizados:");
+        for(Processo pro : processosTerminados) {
+            System.out.println(pro.toString());
+        }
     }
 }

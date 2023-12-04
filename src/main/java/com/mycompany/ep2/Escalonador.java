@@ -12,13 +12,16 @@ import java.util.List;
  * @author sidin
  */
 public abstract class Escalonador {
-    private LinkedList<ParTempoProcesso> list = new LinkedList<>();
+    private LinkedList<ParTempoProcesso> list;
     private ParTempoProcesso processoAtivo;
     private Recurso recurso;
     private int contTempo;
     
     public Escalonador() {
-        
+        list = new LinkedList<>();
+        //this.processoAtivo = null;
+        this.recurso = null;
+        this.contTempo = 0;
     }
     
     public void adicionar(Recurso recurso) {
@@ -40,7 +43,7 @@ public abstract class Escalonador {
     public boolean adicionar(int tempoRequerido, Processo processo) {
         ParTempoProcesso aux = new ParTempoProcesso(tempoRequerido, processo);
         adicionar(aux);
-        return true; //ele n pediu para fazer esse return mas fazer oq ne, ele vai dar erro se n fizer
+        return true;
     }
     
     public abstract boolean adicionar(ParTempoProcesso par);

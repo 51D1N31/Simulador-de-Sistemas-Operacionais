@@ -31,6 +31,9 @@ public abstract class GerenciadorDeMemoria {
     }
     
     public double getAlocacaoMaxima() {
+        if (alocacaoMaxima == 0) {
+            return 0;
+        }
         return 100.0*(getQuantidadeTotal()/alocacaoMaxima); //n garanto que isso esteja certo
     }
     

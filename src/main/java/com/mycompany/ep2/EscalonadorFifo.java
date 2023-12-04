@@ -12,7 +12,7 @@ public class EscalonadorFifo extends Escalonador{
     @Override
     public boolean adicionar(ParTempoProcesso par) {
         
-        if (getParTempoProcessoAtivo().getTempo() == 0) {
+        if (par.getTempo() == 0) {
             throw new IllegalArgumentException("Tempo requerido zero");
         } else{
             getProcessos().add(par);

@@ -31,6 +31,6 @@ public class ParTempoProcesso implements Comparable<ParTempoProcesso>{
     
     @Override
     public int compareTo(ParTempoProcesso outroPar) {
-        return this.getTempo() - outroPar.getTempo();
+        return getTempo() - outroPar.getTempo();
     } 
 }

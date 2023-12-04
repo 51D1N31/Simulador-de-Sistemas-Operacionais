@@ -9,10 +9,22 @@ package com.mycompany.ep2;
  * @author sidin
  */
 public class GerenciadorDeMemoriaFragmentada extends GerenciadorDeMemoria{
-    //Essa classe vai demorar para ser implementada é a 3.8 Classe GerenciadorDeMemoriaFragmentada
+    
+    private class Fragmento {
+        
+        private int posicaoInicial, posicaoFinal, tamanhoFragmento;
+        
+        public Fragmento(int posicaoInicial, int posicaoFinal, int tamanhoFragmento) {
+            this.posicaoInicial = posicaoInicial;
+            this.posicaoFinal = posicaoFinal;
+            this.tamanhoFragmento = tamanhoFragmento;
+        }
+    }
     public GerenciadorDeMemoriaFragmentada(int quantidadeTotal) {
         super(quantidadeTotal);
     }
+    
+    
     
     public void alocar(int quantidadepedida) {
         

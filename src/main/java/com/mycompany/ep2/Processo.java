@@ -18,7 +18,7 @@ public class Processo extends ContadorDeTempo{
     private boolean setCPU = false;
     private boolean setES = false;
     
-    public Processo(String nome, boolean CpuPrimeiro, int tempoTotalCPU, int tempoToalES, int memoriaNecessaria) {
+    public Processo(String nome, boolean CpuPrimeiro, int tempoTotalCPU, int tempoTotalES, int memoriaNecessaria) {
         this.nome = nome;
         this.CpuPrimeiro = CpuPrimeiro;
         this.tempoTotalCPU = tempoTotalCPU;
